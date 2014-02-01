@@ -23,7 +23,7 @@ p.Container_initialize = p.initialize;
 
 p.initialize = function() {
 	this.Container_initialize();
-	
+	 
 	for (var i = 0; i < 20; i++) {
 		var line = new cr.Line();
 		line.y = i * Board.cellSize;
