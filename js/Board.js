@@ -29,15 +29,6 @@ p.initialize = function() {
 		line.y = i * Board.cellSize;
 		this.addChild(line);
 		this._lines[i] = line;
-		
-		// TEST CODE REMOVE LATER
-		if (i == 0 || i == 18 || i == 19) {
-			var block = new createjs.Shape();
-			block.graphics.beginFill("#AA0000").drawRect(0, 0, cr.Board.cellSize, cr.Board.cellSize);
-			block.setBounds(0, 0, cr.Board.cellSize, cr.Board.cellSize);
-			block.y = 0;
-			this._lines[i].addBlockAt(block, 2);
-		}
 	}
 };
 
@@ -58,10 +49,10 @@ p.placeFallingBlock = function() {
 		var x = (point.x + this.fallingBlock.blockOffsetX) / Board.cellSize;
 		var y = (point.y + this.fallingBlock.blockOffsetY) / Board.cellSize;
 		this._lines[y].addBlockAt(block, x);
-		block.y = cr.Board.cellSize/2;
+		block.y = cr.Board.cellSize / 2;
 		block.rotation = this.fallingBlock.rotation;
-		block.regX = cr.Board.cellSize/2;
-		block.regY = cr.Board.cellSize/2;
+		block.regX = cr.Board.cellSize / 2;
+		block.regY = cr.Board.cellSize / 2;
 		
 	}
 	

@@ -21,7 +21,6 @@ p.initialize = function(positions) {
 	
 	// Create the block-parts at the specified positions
 	for (var i = 0; i < positions.length; i++) {
-		// TODO: change to image
 		var block = positions[i].image;
 		block.setBounds(0, 0, cr.Board.cellSize, cr.Board.cellSize);
 		block.x = positions[i].x * cr.Board.cellSize;

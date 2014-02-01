@@ -23,7 +23,7 @@ $(document).ready(function() {
 	board = new cr.Board();
 
 	
-	block = new cr.TBlock();
+	block = new cr.IBlock();
 	block.setPos(90, 90);
 	board.setFallingBlock(block);
 	
