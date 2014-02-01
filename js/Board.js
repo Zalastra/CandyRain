@@ -27,6 +27,15 @@ p.initialize = function() {
 		line.y = i * Board.cellSize;
 		this.addChild(line);
 		this._lines[i] = line;
+		
+		// TEST CODE REMOVE LATER
+		if (i == 0 || i == 18 || i == 19) {
+			var block = new createjs.Shape();
+			block.graphics.beginFill("#AA0000").drawRect(0, 0, cr.Board.cellSize, cr.Board.cellSize);
+			block.setBounds(0, 0, cr.Board.cellSize, cr.Board.cellSize);
+			block.y = 0;
+			this._lines[i].addBlockAt(block, 2);
+		}
 	}
 };
 
@@ -40,34 +49,45 @@ p.setFallingBlock = function(nextBlock) {
 
 // Put the blocks on the board.
 p.placeFallingBlock = function() {
-	var offsetX = 0;
-	var offsetY = 0;
-	
-	switch (Math.abs(this.fallingBlock.rotation%360)) {
-		case 90:
-			offsetX = -Board.cellSize;
-			break;
-		case 180:
-			offsetX = -Board.cellSize;
-			offsetY = -Board.cellSize;
-			break;
-		case 270:
-			offsetY = -Board.cellSize;
-			break;
-	}
-	
 	var blocks = this.fallingBlock.children;
 	while (blocks.length > 0) {
 		var block = blocks.pop();
 		var point = block.localToGlobal(this.x, this.y);
-		var x = (point.x + offsetX) / Board.cellSize;
-		var y = (point.y + offsetY) / Board.cellSize;
+		var x = (point.x + this.fallingBlock.blockOffsetX) / Board.cellSize;
+		var y = (point.y + this.fallingBlock.blockOffsetY) / Board.cellSize;
 		this._lines[y].addBlockAt(block, x);
 		block.y = 0;
 	}
 	
 	this.removeChild(this.fallingBlock);
 	this.fallingBlock = null;
+}
+
+// Check for collisions
+p.checkCollisions = function() {
+	// get a point from all objects
+	var points = [];
+	var blocks = this.fallingBlock.children;
+	for (var i = 0; i < blocks.length; i++) {
+		var point = blocks[i].localToGlobal(this.x, this.y);
+		point.x = Math.round(point.x + this.fallingBlock.blockOffsetX);
+		point.y = Math.round(point.y + this.fallingBlock.blockOffsetY);
+		points.push(point);
+	}
+	
+	// test the points against all placed blocks
+	for (var i = 0; i < this._lines.length; i++) {
+		for (var j = 0; j < this._lines[i].children.length; j++) {
+			var childPoint = this._lines[i].children[j].localToGlobal(this.x, this.y);
+			for (var k = 0; k < points.length; k++) {
+				if (childPoint.x === points[k].x && childPoint.y === points[k].y) {
+					return true;
+				}
+			}
+		}
+	}
+	
+	return false;
 }
 
 cr.Board = Board;

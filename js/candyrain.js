@@ -13,6 +13,7 @@ var KEYCODE_Z = 90;
 // Variables
 var stage;
 var board;
+var nextBlock;
 
 // Initialization
 $(document).ready(function() {
@@ -35,14 +36,10 @@ $(document).ready(function() {
 var handleInput = function(event) {
 	switch(event.which) {
 		case KEYCODE_LEFTARROW:
-			if (board.fallingBlock.bounds.x > 0) {
-				board.fallingBlock.move(-cr.Board.cellSize, 0);
-			}
+			moveLeft();
 			break;
 		case KEYCODE_RIGHTARROW:
-			if (board.fallingBlock.bounds.x + board.fallingBlock.bounds.width < cr.Board.cellSize * 10) {
-				board.fallingBlock.move(cr.Board.cellSize, 0);
-			}
+			moveRight();
 			break;
 		case KEYCODE_DOWNARROW:
 			moveDown();
@@ -53,10 +50,10 @@ var handleInput = function(event) {
 			break;
 		case KEYCODE_UPARROW:
 		case KEYCODE_X:
-			board.fallingBlock.rotate(true);
+			rotate(true);
 			break;
 		case KEYCODE_Z:
-			board.fallingBlock.rotate(false);
+			rotate(false);
 			break;
 	}
 };
@@ -71,18 +68,58 @@ var setNextBlock = function() {
 	nextBlock = new cr.TBlock(); // TODO: randomize
 }
 
-// Move the active block down
+// Move the falling block down
 var moveDown = function() {
 	// Check for the bottom
 	if (board.fallingBlock.bounds.y + board.fallingBlock.bounds.height < cr.Board.cellSize * 20) {
 		board.fallingBlock.move(0, cr.Board.cellSize);
 		
-		// TODO: collision check
-	} else {
-		board.placeFallingBlock();
-		board.setFallingBlock(nextBlock);
-		setNextBlock();
+		// if no collision exit function
+		if (!board.checkCollisions()) {
+			return
+		}
+		
+		// if collided move back
+		board.fallingBlock.move(0, -cr.Board.cellSize);
+	}
+	
+	// hit ground or other blocks so place the falling block and set the next one to fall
+	board.placeFallingBlock();
+	board.setFallingBlock(nextBlock);
+	setNextBlock();
+};
+
+// Move the falling block to the left
+var moveLeft = function() {
+	// If not on the edge
+	if (board.fallingBlock.bounds.x > 0) {
+		board.fallingBlock.move(-cr.Board.cellSize, 0);
+		
+		// if colliding after move undo
+		if (board.checkCollisions()) {
+			board.fallingBlock.move(cr.Board.cellSize, 0);
+		}
 	}
 };
 
+// Move the falling block to the right
+var moveRight = function() {
+	// If not on the edge
+	if (board.fallingBlock.bounds.x + board.fallingBlock.bounds.width < cr.Board.cellSize * 10) {
+		board.fallingBlock.move(cr.Board.cellSize, 0);
+		
+		// if colliding after move undo
+		if (board.checkCollisions()) {
+			board.fallingBlock.move(-cr.Board.cellSize, 0);
+		}
+	}
+};
+
+// Rotate the falling block
+var rotate = function(clockwise) {
+	board.fallingBlock.rotate(clockwise);
+	if (board.checkCollisions()) {
+		board.fallingBlock.rotate(!clockwise);
+	}
+}
 }());

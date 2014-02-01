@@ -10,6 +10,10 @@ var p = CandyBlock.prototype = Object.create(createjs.Container.prototype);
 // public properties
 p.bounds;
 
+p.blockOffsetX = 0;
+
+p.blockOffsetY = 0;
+
 // Constructor
 p.Container_initialize = p.initialize;
 p.initialize = function(positions) {
@@ -58,7 +62,7 @@ p.rotate = function(clockwise) {
 	var rotation = this.rotation;
 	var bounds = this.bounds;
 	
-	this.rotation = (clockwise) ? this.rotation + 90 : this.rotation - 90;
+	this.rotation = Math.abs((clockwise ? this.rotation + 90 : this.rotation - 90) % 360);
 	
 	// get rid of the mess caused by rotation + floating point numbers
 	this.bounds = this.getTransformedBounds().clone();
@@ -67,8 +71,27 @@ p.rotate = function(clockwise) {
 	this.bounds.width = Math.round(this.bounds.width);
 	this.bounds.height = Math.round(this.bounds.height);
 	
+	// set per squareblock offset values for x and y based on the rotation
+	switch (this.rotation) {
+		case 0:
+			this.blockOffsetX = 0;
+			this.blockOffsetY = 0;
+			break;
+		case 90:
+			this.blockOffsetX = -cr.Board.cellSize;
+			this.blockOffsetY = 0;
+			break;
+		case 180:
+			this.blockOffsetX = -cr.Board.cellSize;
+			this.blockOffsetY = -cr.Board.cellSize;
+			break;
+		case 270:
+			this.blockOffsetX = 0;
+			this.blockOffsetY = -cr.Board.cellSize;
+			break;
+	}
+	
 	// If rotating made the block go outside the borders undo the rotating
-	// TODO: check for collision and prevent rotating in those cases
 	if (this.bounds.x < 0 || this.bounds.x + this.bounds.width > 10 * cr.Board.cellSize ||
 		this.bounds.y + this.bounds.height > 20 * cr.Board.cellSize) {
 		this.rotation = rotation;
