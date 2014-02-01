@@ -12,30 +12,73 @@ var KEYCODE_DOWNARROW = 40;
 var KEYCODE_X = 88;
 var KEYCODE_Z = 90;
 
+
 // Variables
 var stage;
 var board;
 var nextBlock;
+var blockStage; 
+var pointStage;
+var blockSpeed;
+
 
 // Initialization
 $(document).ready(function() {
 	stage = new createjs.Stage("CandyRainCanvas");
-	board = new cr.Board();
-
 	
-	//block = new cr.IBlock();
+	board = new cr.Board();
+	
+
+
+	createBlockStage();
+	createPointStage();
+	
+	
+	blockSpeed = 24;
+	
+	
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
 	board.fallingBlock.setPos(90, 90);
+	
+
+	
 	setNextBlock();
-	
+
 	stage.addChild(board);
-	
+	createjs.Ticker.init();
     createjs.Ticker.addEventListener("tick", update);
 	createjs.Ticker.setFPS(25);
 	
 	$(document).keydown(handleInput);
 });
+// create blockStage
+// nextBlock is found in setNextBlock and directly placed in the container.
+var createBlockStage = function(){
+	blockStage = new createjs.Container();
+	blockStage.x = 300;
+	blockStage.y = 200;
+	var background = new createjs.Shape();
+	background.graphics.beginFill("FFDE4D").drawRect(0, 0, 100, 140);
+	blockStage.addChild(background);
+	
+	var text = new createjs.Text("Next Block", "20px Arial", "#ff7700");
+	blockStage.addChild(text);
+	stage.addChild(blockStage);
+};
+// create pointStage
+var createPointStage = function() {
+	pointStage = new createjs.Container();
+	pointStage.x = 300;
+	pointStage.y = 400;
+	var background = new createjs.Shape();
+	background.graphics.beginFill("FFDE4D").drawRect(0, 0, 100, 140);
+	pointStage.addChild(background);
+	var text = new createjs.Text("Points", "20px Arial", "#ff7700");
+	pointStage.addChild(text);
+	stage.addChild(pointStage);
+}
+
 
 // Handle input
 var handleInput = function(event) {
@@ -65,13 +108,15 @@ var handleInput = function(event) {
 
 // Update function
 var update = function(event) {
+	if(createjs.Ticker.getTicks() % blockSpeed == 0){
+		moveDown();
+	}
 	stage.update();
 };
 
 // Randomize next block;
 var setNextBlock = function() {
-	var blockType = Math.round(Math.random() * 7);
-	console.log(blockType);
+	var blockType = Math.floor(Math.random() * 7);
 	switch(blockType){
 		case 0:
 			nextBlock = new cr.IBlock();
@@ -95,6 +140,10 @@ var setNextBlock = function() {
 			nextBlock = new cr.TBlock(); 
 			break;	
 		}	
+			nextBlock.setPos(10,20);
+			blockStage.addChild(nextBlock);
+
+
 }
 
 // Move the falling block down
