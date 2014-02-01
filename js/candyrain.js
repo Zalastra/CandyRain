@@ -26,7 +26,6 @@ $(document).ready(function() {
 	//block = new cr.IBlock();
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
-	board.fallingBlock.setPos(90, 90);
 	setNextBlock();
 	
 	stage.addChild(board);
@@ -70,8 +69,7 @@ var update = function(event) {
 
 // Randomize next block;
 var setNextBlock = function() {
-	var blockType = Math.round(Math.random() * 7);
-	console.log(blockType);
+	var blockType = Math.floor(Math.random() * 7);
 	switch(blockType){
 		case 0:
 			nextBlock = new cr.IBlock();
@@ -114,8 +112,10 @@ var moveDown = function() {
 	
 	// hit ground or other blocks so place the falling block and set the next one to fall
 	board.placeFallingBlock();
+	var score = board.checkLines();
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
+	return score;
 };
 
 // Move the falling block to the left
