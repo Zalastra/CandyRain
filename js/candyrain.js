@@ -1,5 +1,3 @@
-
-
 (function(){
 
 // Constants
@@ -22,6 +20,8 @@ var pointStage;
 var blockSpeed;
 var score = 0;
 var points;
+var gameOverBox;
+var gameOver = false;
 
 
 // Initialization
@@ -29,9 +29,11 @@ $(document).ready(function() {
 	stage = new createjs.Stage("CandyRainCanvas");
 	
 	board = new cr.Board();
+	stage.addChild(board);
 	
 	createBlockStage();
 	createPointStage();
+	createGameOverDialog();
 	
 	blockSpeed = 24;
 	
@@ -39,7 +41,7 @@ $(document).ready(function() {
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
 
-	stage.addChild(board);
+	
 	createjs.Ticker.init();
     createjs.Ticker.addEventListener("tick", update);
 	createjs.Ticker.setFPS(25);
@@ -76,6 +78,20 @@ var createPointStage = function() {
 	stage.addChild(pointStage);
 }
 
+// Game Over Dialog
+var createGameOverDialog = function() {
+	gameOverBox = new createjs.Container();
+	gameOverBox.y = 200;
+	var gameOverBoxBackground = new createjs.Shape();
+	gameOverBoxBackground.graphics.beginFill("#FF0000").drawRect(0, 0, 300, 80);
+	var text = new createjs.Text("Candy Overload", "bold 32px Times New Roman", "#000000");
+	text.x = 30;
+	text.y = 15;
+	gameOverBox.addChild(gameOverBoxBackground);
+	gameOverBox.addChild(text);
+	gameOverBox.visible = false;
+	stage.addChild(gameOverBox);
+}
 
 // Handle input
 var handleInput = function(event) {
@@ -105,8 +121,10 @@ var handleInput = function(event) {
 
 // Update function
 var update = function(event) {
-	if(createjs.Ticker.getTicks() % blockSpeed == 0){
-		moveDown();
+	if (!gameOver) {
+		if(createjs.Ticker.getTicks() % blockSpeed == 0){
+			moveDown();
+		}
 	}
 	stage.update();
 };
@@ -159,7 +177,11 @@ var moveDown = function() {
 	}
 	
 	// hit ground or other blocks so place the falling block and set the next one to fall
-	board.placeFallingBlock();
+	var succes = board.placeFallingBlock();
+	if (!succes) {
+		setGameOver();
+		return;
+	}
 	//score += board.checkLines();
 	switch(board.checkLines()){
 		case 1:
@@ -175,11 +197,21 @@ var moveDown = function() {
 			score += 1200;
 			break;
 	}
-	
-	board.setFallingBlock(nextBlock);
-	setNextBlock();
 	points.text = "" + score;
+	
+	succes = board.setFallingBlock(nextBlock);
+	if (!succes) {
+		setGameOver();
+		return;
+	}
+	setNextBlock();
 };
+
+// You suck!
+var setGameOver = function() {
+	gameOverBox.visible = true;
+	gameOver = true;
+}
 
 // Move the falling block to the left
 var moveLeft = function() {
