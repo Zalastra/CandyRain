@@ -18,7 +18,7 @@ p.initialize = function() {
 p.addBlockAt = function(block, index) {
 	this.cells[index] = block;
 	this.addChild(block);
-	block.x = index * cr.Board.cellSize;
+	block.x = index * cr.Board.cellSize + cr.Board.cellSize/2;
 };
 
 p.isFilled = function() {
