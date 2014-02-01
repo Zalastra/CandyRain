@@ -26,12 +26,17 @@ p.initialize = function() {
 	
 	this._lines = [];
 	
+	var background = new createjs.Shape();
+	background.graphics.beginLinearGradientFill(["#4DEAFF", "#82A4A8"], [0, 1], 0, 300, 0, 120).drawRect(0, 0, 300, 600);
+	this.addChild(background);
+	
 	for (var i = 0; i < 20; i++) {
 		var line = new cr.Line();
 		line.y = i * Board.cellSize;
 		this.addChild(line);
 		this._lines[i] = line;
 	}
+	
 };
 
 // public methods

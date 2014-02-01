@@ -21,6 +21,7 @@ var blockStage;
 var pointStage;
 var blockSpeed;
 var score = 0;
+var points;
 
 
 // Initialization
@@ -52,7 +53,7 @@ var createBlockStage = function(){
 	blockStage.x = 300;
 	blockStage.y = 200;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
 	blockStage.addChild(background);
 	
 	var text = new createjs.Text("Next Block", "20px Arial", "#ff7700");
@@ -65,9 +66,12 @@ var createPointStage = function() {
 	pointStage.x = 300;
 	pointStage.y = 400;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
 	pointStage.addChild(background);
-	var text = new createjs.Text("Points", "20px Arial", "#ff7700");
+	var text = new createjs.Text("Points", "20px Times New Roman", "#ff7700");
+	points = new createjs.Text("0", "20px Times New Roman", "#ff7700");
+	points.y = 30;
+	pointStage.addChild(points);
 	pointStage.addChild(text);
 	stage.addChild(pointStage);
 }
@@ -156,10 +160,25 @@ var moveDown = function() {
 	
 	// hit ground or other blocks so place the falling block and set the next one to fall
 	board.placeFallingBlock();
-	score += board.checkLines();
+	//score += board.checkLines();
+	switch(board.checkLines()){
+		case 1:
+			score += 40;
+			break;
+		case 2:
+			score += 100;
+			break;
+		case 3:
+			score += 300;
+			break;
+		case 4: 
+			score += 1200;
+			break;
+	}
+	
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
-	console.log(score);
+	points.text = "" + score;
 };
 
 // Move the falling block to the left
