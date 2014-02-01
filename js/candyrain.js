@@ -1,3 +1,5 @@
+
+
 (function(){
 
 // Constants
@@ -13,11 +15,13 @@ var KEYCODE_Z = 90;
 // Variables
 var stage;
 var board;
+var nextBlock;
 
 // Initialization
 $(document).ready(function() {
 	stage = new createjs.Stage("CandyRainCanvas");
 	board = new cr.Board();
+
 	
 	block = new cr.TBlock();
 	block.setPos(90, 90);
@@ -68,7 +72,7 @@ var update = function(event) {
 
 // Randomize next block;
 var setNextBlock = function() {
-	nextBlock = new cr.TBlock(); // TODO: randomize
+	nextBlock = new cr.IBlock(); // TODO: randomize
 }
 
 // Move the active block down

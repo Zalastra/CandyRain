@@ -9,6 +9,8 @@ var p = Board.prototype = Object.create(createjs.Container.prototype);
 
 // static properties
 Board.cellSize = 30; // Must be an even number
+Board.blockImages = new Image();
+Board.blockImages.src = 'candy_blocks.png';
 
 // public properties
 p.fallingBlock = null;
@@ -63,7 +65,11 @@ p.placeFallingBlock = function() {
 		var x = (point.x + offsetX) / Board.cellSize;
 		var y = (point.y + offsetY) / Board.cellSize;
 		this._lines[y].addBlockAt(block, x);
-		block.y = 0;
+		block.y = cr.Board.cellSize/2;
+		block.rotation = this.fallingBlock.rotation;
+		block.regX = cr.Board.cellSize/2;
+		block.regY = cr.Board.cellSize/2;
+		
 	}
 	
 	this.removeChild(this.fallingBlock);

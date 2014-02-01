@@ -16,13 +16,12 @@ p.initialize = function(positions) {
 	this.Container_initialize();
 	
 	// Create the block-parts at the specified positions
-	for (var i = 0; i < positions.length; i+=2) {
+	for (var i = 0; i < positions.length; i++) {
 		// TODO: change to image
-		var block = new createjs.Shape();
-		block.graphics.beginFill("#AA0000").drawRect(0, 0, cr.Board.cellSize, cr.Board.cellSize);
+		var block = positions[i].image;
 		block.setBounds(0, 0, cr.Board.cellSize, cr.Board.cellSize);
-		block.x = positions[i] * cr.Board.cellSize;
-		block.y = positions[i+1] * cr.Board.cellSize;
+		block.x = positions[i].x * cr.Board.cellSize;
+		block.y = positions[i].y * cr.Board.cellSize;
 		this.addChild(block);
 		
 		// Set point of origin at the center of the first block-part
