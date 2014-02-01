@@ -44,7 +44,8 @@ p.initialize = function() {
 p.setFallingBlock = function(nextBlock) {
 	this.fallingBlock = nextBlock;
 	this.addChild(nextBlock);
-	nextBlock.setPos(120, 0);
+	nextBlock.setPos(4 * Board.cellSize, 0);
+	return !this.checkCollisions();
 }
 
 // Put the blocks on the board.
@@ -55,6 +56,9 @@ p.placeFallingBlock = function() {
 		var point = block.localToGlobal(this.x, this.y);
 		var x = Math.round(point.x + this.fallingBlock.blockOffsetX) / Board.cellSize;
 		var y = Math.round(point.y + this.fallingBlock.blockOffsetY) / Board.cellSize;
+		if (x < 0 || y < 0) {
+			return false;
+		}
 		this._lines[y].addBlockAt(block, x);
 		block.y = cr.Board.cellSize / 2;
 		block.rotation = this.fallingBlock.rotation;
@@ -64,6 +68,7 @@ p.placeFallingBlock = function() {
 	
 	this.removeChild(this.fallingBlock);
 	this.fallingBlock = null;
+	return true;
 }
 
 // Check for collisions
