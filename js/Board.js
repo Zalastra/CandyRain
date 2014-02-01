@@ -10,7 +10,7 @@ var p = Board.prototype = Object.create(createjs.Container.prototype);
 // static properties
 Board.cellSize = 30; // Must be an even number
 Board.blockImages = new Image();
-Board.blockImages.src = 'candy_blocks.png';
+Board.blockImages.src = 'images/candy_blocks.png';
 
 // public properties
 p.fallingBlock = null;

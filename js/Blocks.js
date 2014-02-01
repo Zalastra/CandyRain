@@ -67,10 +67,6 @@ var JBlock = function() {
 	image3.image = cr.Board.blockImages;
 	image3.sourceRect = new createjs.Rectangle(90,90,30,30);
 	
-	var image4 = new createjs.Bitmap();
-	image4.image = cr.Board.blockImages;
-	image4.sourceRect = new createjs.Rectangle(90,120,30,30);
-
 	var image5 = new createjs.Bitmap();
 	image5.image = cr.Board.blockImages;
 	image5.sourceRect = new createjs.Rectangle(90,150,30,30);
@@ -93,17 +89,13 @@ var JBlock = function() {
 	var arg4 = {
 		x: 1,
 		y: 2,
-		image: image4
-		}
-	var arg5 = {
-		x: 1,
-		y: 3,
 		image: image5
 		}
 
 
 
-	this.initialize([arg3, arg2, arg1, arg4, arg5]);
+
+	this.initialize([arg3, arg2, arg1, arg4]);
 };
 JBlock.prototype = Object.create(cr.CandyBlock.prototype);
 
@@ -126,13 +118,11 @@ var LBlock = function() {
 	image3.image = cr.Board.blockImages;
 	image3.sourceRect = new createjs.Rectangle(0,90,30,30);
 	
-	var image4 = new createjs.Bitmap();
-	image4.image = cr.Board.blockImages;
-	image4.sourceRect = new createjs.Rectangle(0,120,30,30);
-
 	var image5 = new createjs.Bitmap();
 	image5.image = cr.Board.blockImages;
 	image5.sourceRect = new createjs.Rectangle(0,150,30,30);
+
+
 	
 	var arg1 = {
 		x: 0,
@@ -152,16 +142,12 @@ var LBlock = function() {
 	var arg4 = {
 		x: 0,
 		y: 2,
-		image: image4
-		}
-	var arg5 = {
-		x: 0,
-		y: 3,
 		image: image5
 		}
+
 	
 	
-	this.initialize([arg3, arg2, arg1, arg4, arg5]);
+	this.initialize([arg3, arg2, arg1, arg4]);
 };
 LBlock.prototype = Object.create(cr.CandyBlock.prototype);
 

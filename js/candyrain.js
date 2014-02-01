@@ -23,9 +23,11 @@ $(document).ready(function() {
 	board = new cr.Board();
 
 	
-	block = new cr.IBlock();
-	block.setPos(90, 90);
-	board.setFallingBlock(block);
+	//block = new cr.IBlock();
+	setNextBlock();
+	board.setFallingBlock(nextBlock);
+	board.fallingBlock.setPos(90, 90);
+	setNextBlock();
 	
 	stage.addChild(board);
 	
@@ -68,7 +70,31 @@ var update = function(event) {
 
 // Randomize next block;
 var setNextBlock = function() {
-	nextBlock = new cr.IBlock(); // TODO: randomize
+	var blockType = Math.round(Math.random() * 7);
+	console.log(blockType);
+	switch(blockType){
+		case 0:
+			nextBlock = new cr.IBlock();
+			break;
+		case 1:
+			nextBlock = new cr.JBlock(); 
+			break;
+		case 2:	
+			nextBlock = new cr.SBlock(); 
+			break;
+		case 3:	
+			nextBlock = new cr.ZBlock(); 
+			break;
+		case 4:	
+			nextBlock = new cr.OBlock(); 
+			break;			
+		case 5:	
+			nextBlock = new cr.LBlock(); 
+			break;
+		case 6:	
+			nextBlock = new cr.TBlock(); 
+			break;	
+		}	
 }
 
 // Move the falling block down
