@@ -12,16 +12,16 @@ var IBlock = function() {
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
-	image2.sourceRect = new createjs.Rectangle(120,90,30,30);
+	image2.sourceRect = new createjs.Rectangle(150,60,30,30);
 
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
-	image3.sourceRect = new createjs.Rectangle(120,120,30,30);
+	image3.sourceRect = new createjs.Rectangle(180,60,30,30);
 	
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
-	image4.sourceRect = new createjs.Rectangle(120,150,30,30);
+	image4.sourceRect = new createjs.Rectangle(210,60,30,30);
 
 	
 	var arg1 = {
@@ -30,18 +30,18 @@ var IBlock = function() {
 		image: image1
 		}
 	var arg2 = {
-		x: 0,
-		y: 1,
+		x: 1,
+		y: 0,
 		image: image2
 		}
 	var arg3 = {
-		x: 0,
-		y: 2,
+		x: 2,
+		y: 0,
 		image: image3
 		}
 	var arg4 = {
-		x: 0,
-		y: 3,
+		x: 3,
+		y: 0,
 		image: image4
 		}
 	this.initialize([arg2, arg1, arg3, arg4]);

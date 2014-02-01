@@ -6,3 +6,8 @@
 body {
 	background-image: url(http://i.imgur.com/l7HRnia.jpg);
 }
+
+#banner {
+	font-size: 200%;
+	color: yellow;
+}

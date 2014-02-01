@@ -21,8 +21,10 @@ var blockStage;
 var pointStage;
 var blockSpeed;
 var score = 0;
+var level;
 var points;
-
+var levelText;
+var eventWhich=0;
 
 // Initialization
 $(document).ready(function() {
@@ -34,7 +36,7 @@ $(document).ready(function() {
 	createPointStage();
 	
 	blockSpeed = 24;
-	
+	level = 1;
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
@@ -53,10 +55,10 @@ var createBlockStage = function(){
 	blockStage.x = 300;
 	blockStage.y = 200;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 150, 140);
 	blockStage.addChild(background);
 	
-	var text = new createjs.Text("Next Block", "20px Arial", "#ff7700");
+	var text = new createjs.Text("Next Candy", "20px Arial", "#ff7700");
 	blockStage.addChild(text);
 	stage.addChild(blockStage);
 };
@@ -66,20 +68,37 @@ var createPointStage = function() {
 	pointStage.x = 300;
 	pointStage.y = 400;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 150, 140);
 	pointStage.addChild(background);
 	var text = new createjs.Text("Points", "20px Times New Roman", "#ff7700");
 	points = new createjs.Text("0", "20px Times New Roman", "#ff7700");
 	points.y = 30;
 	pointStage.addChild(points);
 	pointStage.addChild(text);
+	
+	//level:
+	var ltext = new createjs.Text("Level", "20px Times New Roman", "#ff7700");
+	ltext.y = 60;
+	levelText = new createjs.Text("1", "20px Times New Roman", "#ff7700");
+	levelText.y = 90;
+	pointStage.addChild(levelText);
+	pointStage.addChild(ltext);
+	
 	stage.addChild(pointStage);
 }
 
 
 // Handle input
 var handleInput = function(event) {
-	switch(event.which) {
+	eventWhich = event.which;
+};
+
+// Update function
+var update = function(event) {
+	if(createjs.Ticker.getTicks() % blockSpeed == 0){
+		moveDown();
+	}
+	switch(eventWhich) {
 		case KEYCODE_LEFTARROW:
 			moveLeft();
 			break;
@@ -101,13 +120,7 @@ var handleInput = function(event) {
 			rotate(false);
 			break;
 	}
-};
-
-// Update function
-var update = function(event) {
-	if(createjs.Ticker.getTicks() % blockSpeed == 0){
-		moveDown();
-	}
+	eventWhich = 0;
 	stage.update();
 };
 
@@ -156,8 +169,9 @@ var moveDown = function() {
 		
 		// if collided move back
 		board.fallingBlock.move(0, -cr.Board.cellSize);
-	}
-	
+		
+	}	
+		
 	// hit ground or other blocks so place the falling block and set the next one to fall
 	board.placeFallingBlock();
 	//score += board.checkLines();
@@ -175,10 +189,17 @@ var moveDown = function() {
 			score += 1200;
 			break;
 	}
+	if(score > (5000 * level)) {
+		level++;
+		levelText.text = level;
+		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed/12)), 8));
+		console.log(blockSpeed);
+	}
 	
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
 	points.text = "" + score;
+
 };
 
 // Move the falling block to the left
