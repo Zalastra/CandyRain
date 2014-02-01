@@ -22,6 +22,8 @@ var score = 0;
 var points;
 var gameOverBox;
 var gameOver = false;
+var levelText;
+var eventWhich = 0;
 
 
 // Initialization
@@ -36,6 +38,7 @@ $(document).ready(function() {
 	createGameOverDialog();
 	
 	blockSpeed = 24;
+	level = 1;
 	
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
@@ -48,6 +51,7 @@ $(document).ready(function() {
 	
 	$(document).keydown(handleInput);
 });
+
 // create blockStage
 // nextBlock is found in setNextBlock and directly placed in the container.
 var createBlockStage = function(){
@@ -55,10 +59,10 @@ var createBlockStage = function(){
 	blockStage.x = 300;
 	blockStage.y = 200;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 150, 140);
 	blockStage.addChild(background);
 	
-	var text = new createjs.Text("Next Block", "20px Arial", "#ff7700");
+	var text = new createjs.Text("Candy Block", "20px Arial", "#ff7700");
 	blockStage.addChild(text);
 	stage.addChild(blockStage);
 };
@@ -68,11 +72,17 @@ var createPointStage = function() {
 	pointStage.x = 300;
 	pointStage.y = 400;
 	var background = new createjs.Shape();
-	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 100, 140);
+	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 150, 140);
 	pointStage.addChild(background);
 	var text = new createjs.Text("Points", "20px Times New Roman", "#ff7700");
 	points = new createjs.Text("0", "20px Times New Roman", "#ff7700");
 	points.y = 30;
+	var ltext = new createjs.Text("Level", "20px Times New Roman", "#ff7700");
+	ltext.y = 60;
+	levelText = new createjs.Text("1", "20px Times New Roman", "#ff7700");
+	levelText.y = 90;
+	pointStage.addChild(levelText);
+	pointStage.addChild(ltext);
 	pointStage.addChild(points);
 	pointStage.addChild(text);
 	stage.addChild(pointStage);
@@ -95,28 +105,7 @@ var createGameOverDialog = function() {
 
 // Handle input
 var handleInput = function(event) {
-	switch(event.which) {
-		case KEYCODE_LEFTARROW:
-			moveLeft();
-			break;
-		case KEYCODE_RIGHTARROW:
-			moveRight();
-			break;
-		case KEYCODE_DOWNARROW:
-			moveDown();
-			break;
-		case KEYCODE_SPACE:
-			// TODO: Hard drop
-			board.placeFallingBlock(); // testing purposes
-			break;
-		case KEYCODE_UPARROW:
-		case KEYCODE_X:
-			rotate(true);
-			break;
-		case KEYCODE_Z:
-			rotate(false);
-			break;
-	}
+	eventWhich = event.which;
 };
 
 // Update function
@@ -125,6 +114,29 @@ var update = function(event) {
 		if(createjs.Ticker.getTicks() % blockSpeed == 0){
 			moveDown();
 		}
+		switch(eventWhich) {
+			case KEYCODE_LEFTARROW:
+				moveLeft();
+				break;
+			case KEYCODE_RIGHTARROW:
+				moveRight();
+				break;
+			case KEYCODE_DOWNARROW:
+				moveDown();
+				break;
+			case KEYCODE_SPACE:
+				// TODO: Hard drop
+				board.placeFallingBlock(); // testing purposes
+				break;
+			case KEYCODE_UPARROW:
+			case KEYCODE_X:
+				rotate(true);
+				break;
+			case KEYCODE_Z:
+				rotate(false);
+				break;
+		}
+		eventWhich = 0;
 	}
 	stage.update();
 };
@@ -196,6 +208,12 @@ var moveDown = function() {
 		case 4: 
 			score += 1200;
 			break;
+	}
+	if(score > (5000 * level)) {
+		level++;
+		levelText.text = level;
+		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed/12)), 8));
+		console.log(blockSpeed);
 	}
 	points.text = "" + score;
 	
