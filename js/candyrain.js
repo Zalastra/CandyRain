@@ -20,6 +20,7 @@ var nextBlock;
 var blockStage; 
 var pointStage;
 var blockSpeed;
+var score = 0;
 
 
 // Initialization
@@ -146,7 +147,7 @@ var moveDown = function() {
 		
 		// if no collision exit function
 		if (!board.checkCollisions()) {
-			return
+			return;
 		}
 		
 		// if collided move back
@@ -155,8 +156,10 @@ var moveDown = function() {
 	
 	// hit ground or other blocks so place the falling block and set the next one to fall
 	board.placeFallingBlock();
+	score += board.checkLines();
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
+	console.log(score);
 };
 
 // Move the falling block to the left
