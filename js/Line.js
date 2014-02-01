@@ -7,6 +7,8 @@ var Line = function() {
 };
 var p = Line.prototype = Object.create(createjs.Container.prototype);
 
+p.cells;
+
 p.Container_initialize = p.initialize;
 
 p.initialize = function() {

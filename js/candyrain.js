@@ -28,21 +28,13 @@ $(document).ready(function() {
 	
 	board = new cr.Board();
 	
-
-
 	createBlockStage();
 	createPointStage();
 	
-	
 	blockSpeed = 24;
-	
 	
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
-	board.fallingBlock.setPos(90, 90);
-	
-
-	
 	setNextBlock();
 
 	stage.addChild(board);

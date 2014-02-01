@@ -16,14 +16,16 @@ Board.blockImages.src = 'images/candy_blocks.png';
 p.fallingBlock = null;
 
 // private properties
-p._lines = [];
+p._lines;
 
 // constructor
 p.Container_initialize = p.initialize;
 
 p.initialize = function() {
 	this.Container_initialize();
-	 
+	
+	this._lines = [];
+	
 	for (var i = 0; i < 20; i++) {
 		var line = new cr.Line();
 		line.y = i * Board.cellSize;
@@ -46,14 +48,13 @@ p.placeFallingBlock = function() {
 	while (blocks.length > 0) {
 		var block = blocks.pop();
 		var point = block.localToGlobal(this.x, this.y);
-		var x = (point.x + this.fallingBlock.blockOffsetX) / Board.cellSize;
-		var y = (point.y + this.fallingBlock.blockOffsetY) / Board.cellSize;
+		var x = Math.round(point.x + this.fallingBlock.blockOffsetX) / Board.cellSize;
+		var y = Math.round(point.y + this.fallingBlock.blockOffsetY) / Board.cellSize;
 		this._lines[y].addBlockAt(block, x);
 		block.y = cr.Board.cellSize / 2;
 		block.rotation = this.fallingBlock.rotation;
 		block.regX = cr.Board.cellSize / 2;
 		block.regY = cr.Board.cellSize / 2;
-		
 	}
 	
 	this.removeChild(this.fallingBlock);
@@ -76,8 +77,22 @@ p.checkCollisions = function() {
 	for (var i = 0; i < this._lines.length; i++) {
 		for (var j = 0; j < this._lines[i].children.length; j++) {
 			var childPoint = this._lines[i].children[j].localToGlobal(this.x, this.y);
+			var offsetX = 0;
+			var offsetY = 0;
+			switch (this._lines[i].children[j].rotation) {
+				case 90:
+					offsetX = -cr.Board.cellSize;
+					break;
+				case 180:
+					offsetX = -cr.Board.cellSize;
+					offsetY = -cr.Board.cellSize;
+					break;
+				case 270:
+					offsetY = -cr.Board.cellSize;
+					break;
+			}
 			for (var k = 0; k < points.length; k++) {
-				if (childPoint.x === points[k].x && childPoint.y === points[k].y) {
+				if (childPoint.x + offsetX === points[k].x && childPoint.y + offsetY === points[k].y) {
 					return true;
 				}
 			}
@@ -85,6 +100,48 @@ p.checkCollisions = function() {
 	}
 	
 	return false;
+}
+
+// Check if lines are filled with blocks, return number of lines completed
+p.checkLines = function() {
+	var deletedLines = [];
+	var isDeleted = function(index) {
+		for (var i = 0; i < deletedLines.length; i++) {
+			if (deletedLines[i] === index) {
+				return true;
+			}
+		}
+		return false;
+	};
+	
+	for (var i = 0; i < this._lines.length; i++) {
+		if (this._lines[i].isFilled()) {
+			this.removeChild(this._lines[i]);
+			deletedLines.push(i);
+		}
+	}
+	
+	var linesToMove = deletedLines.length;
+	if (linesToMove > 0) {
+		var tempLines = [];
+		for (var i = 0; i < linesToMove; i++) {
+			var line = new cr.Line();
+			line.y = i * Board.cellSize;
+			this.addChild(line);
+			tempLines.push(line);
+		}
+		for (var i = 0; i < this._lines.length; i++) {
+			if ($.inArray(i, deletedLines) === -1) {
+				this._lines[i].y += linesToMove * Board.cellSize;
+				tempLines[i+linesToMove] = this._lines[i];
+			} else {
+				linesToMove--;
+			}
+		}
+		this._lines = tempLines;
+	}
+	
+	return deletedLines.length;
 }
 
 cr.Board = Board;
