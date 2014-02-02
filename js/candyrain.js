@@ -62,7 +62,7 @@ var createBlockStage = function(){
 	background.graphics.beginFill("#FFDE4D").drawRect(0, 0, 150, 140);
 	blockStage.addChild(background);
 	
-	var text = new createjs.Text("Candy Block", "20px Arial", "#ff7700");
+	var text = new createjs.Text("Next Candy", "20px Arial", "#ff7700");
 	blockStage.addChild(text);
 	stage.addChild(blockStage);
 };
