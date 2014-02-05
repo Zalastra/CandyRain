@@ -23,13 +23,26 @@ var points;
 var gameOverBox;
 var gameOver = false;
 var levelText;
-var eventWhich = 0;
+var eventQueue = [];
 
 
 // Initialization
 $(document).ready(function() {
 	stage = new createjs.Stage("CandyRainCanvas");
 	
+	init();
+	
+	createjs.Ticker.init();
+    createjs.Ticker.addEventListener("tick", update);
+	createjs.Ticker.setFPS(25);
+	
+	$(document).keydown(handleInput);
+	$("#pauseButton").click(pause);
+	$("#restartButton").click(restart);
+});
+
+// Initialize game
+var init = function() {
 	board = new cr.Board();
 	stage.addChild(board);
 	
@@ -39,18 +52,12 @@ $(document).ready(function() {
 	
 	blockSpeed = 24;
 	level = 1;
+	score = 0;
 	
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
 	setNextBlock();
-
-	
-	createjs.Ticker.init();
-    createjs.Ticker.addEventListener("tick", update);
-	createjs.Ticker.setFPS(25);
-	
-	$(document).keydown(handleInput);
-});
+}
 
 // create blockStage
 // nextBlock is found in setNextBlock and directly placed in the container.
@@ -66,6 +73,7 @@ var createBlockStage = function(){
 	blockStage.addChild(text);
 	stage.addChild(blockStage);
 };
+
 // create pointStage
 var createPointStage = function() {
 	pointStage = new createjs.Container();
@@ -105,38 +113,51 @@ var createGameOverDialog = function() {
 
 // Handle input
 var handleInput = function(event) {
-	eventWhich = event.which;
+	if (!createjs.Ticker.getPause()) {
+		eventQueue.push(event.which);
+	}
+};
+
+// Restart the game
+var restart = function() {
+	stage.removeChild(board);
+	stage.removeChild(blockStage);
+	stage.removeChild(pointStage);
+	stage.removeChild(gameOverBox);
+	init();
+};
+
+// Pause and unpause the game
+var pause = function() {
+	createjs.Ticker.setPaused(!createjs.Ticker.getPaused());
 };
 
 // Update function
 var update = function(event) {
-	if (!gameOver) {
-		if(createjs.Ticker.getTicks() % blockSpeed == 0){
+	if (!gameOver && !createjs.Ticker.getPaused()) {
+		while (eventQueue.length > 0) {
+			switch (eventQueue.shift()) {
+				case KEYCODE_LEFTARROW:
+					moveLeft();
+					break;
+				case KEYCODE_RIGHTARROW:
+					moveRight();
+					break;
+				case KEYCODE_DOWNARROW:
+					moveDown();
+					break;
+				case KEYCODE_UPARROW:
+				case KEYCODE_X:
+					rotate(true);
+					break;
+				case KEYCODE_Z:
+					rotate(false);
+					break;
+			}
+		}
+		if (createjs.Ticker.getTicks() % blockSpeed == 0) {
 			moveDown();
 		}
-		switch(eventWhich) {
-			case KEYCODE_LEFTARROW:
-				moveLeft();
-				break;
-			case KEYCODE_RIGHTARROW:
-				moveRight();
-				break;
-			case KEYCODE_DOWNARROW:
-				moveDown();
-				break;
-			case KEYCODE_SPACE:
-				// TODO: Hard drop
-				board.placeFallingBlock(); // testing purposes
-				break;
-			case KEYCODE_UPARROW:
-			case KEYCODE_X:
-				rotate(true);
-				break;
-			case KEYCODE_Z:
-				rotate(false);
-				break;
-		}
-		eventWhich = 0;
 	}
 	stage.update();
 };
@@ -144,33 +165,32 @@ var update = function(event) {
 // Randomize next block;
 var setNextBlock = function() {
 	var blockType = Math.floor(Math.random() * 7);
-	switch(blockType){
+	switch (blockType) {
 		case 0:
 			nextBlock = new cr.IBlock();
 			break;
 		case 1:
-			nextBlock = new cr.JBlock(); 
+			nextBlock = new cr.JBlock();
 			break;
-		case 2:	
-			nextBlock = new cr.SBlock(); 
+		case 2:
+			nextBlock = new cr.SBlock();
 			break;
-		case 3:	
-			nextBlock = new cr.ZBlock(); 
+		case 3:
+			nextBlock = new cr.ZBlock();
 			break;
-		case 4:	
-			nextBlock = new cr.OBlock(); 
-			break;			
-		case 5:	
-			nextBlock = new cr.LBlock(); 
+		case 4:
+			nextBlock = new cr.OBlock();
 			break;
-		case 6:	
-			nextBlock = new cr.TBlock(); 
-			break;	
-		}	
-			nextBlock.setPos(10,20);
-			blockStage.addChild(nextBlock);
-
-
+		case 5:
+			nextBlock = new cr.LBlock();
+			break;
+		case 6:
+			nextBlock = new cr.TBlock();
+			break;
+	}
+	
+	nextBlock.setPos(10,20);
+	blockStage.addChild(nextBlock);
 }
 
 // Move the falling block down
@@ -195,7 +215,7 @@ var moveDown = function() {
 		return;
 	}
 	//score += board.checkLines();
-	switch(board.checkLines()){
+	switch(board.checkLines()) {
 		case 1:
 			score += 40;
 			break;
@@ -209,11 +229,10 @@ var moveDown = function() {
 			score += 1200;
 			break;
 	}
-	if(score > (5000 * level)) {
+	if (score > (5000 * level)) {
 		level++;
 		levelText.text = level;
-		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed/12)), 8));
-		console.log(blockSpeed);
+		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed / 12)), 8));
 	}
 	points.text = "" + score;
 	

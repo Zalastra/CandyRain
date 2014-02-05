@@ -4,16 +4,13 @@ this.cr = this.cr || {};
 
 // IBlock Class
 var IBlock = function() {
-
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(120,60,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(150,60,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -22,28 +19,28 @@ var IBlock = function() {
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
 	image4.sourceRect = new createjs.Rectangle(210,60,30,30);
-
 	
 	var arg1 = {
 		x: 0,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 1,
 		y: 0,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 2,
 		y: 0,
 		image: image3
-		}
+	};
 	var arg4 = {
 		x: 3,
 		y: 0,
 		image: image4
-		}
+	};
+	
 	this.initialize([arg2, arg1, arg3, arg4]);
 };
 IBlock.prototype = Object.create(cr.CandyBlock.prototype);
@@ -56,12 +53,10 @@ var JBlock = function() {
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(60,60,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(90,60,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -75,26 +70,23 @@ var JBlock = function() {
 		x: 0,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 1,
 		y: 0,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 1,
 		y: 1,
 		image: image3
-		}
+	};
 	var arg4 = {
 		x: 1,
 		y: 2,
 		image: image5
-		}
-
-
-
-
+	};
+	
 	this.initialize([arg3, arg2, arg1, arg4]);
 };
 JBlock.prototype = Object.create(cr.CandyBlock.prototype);
@@ -107,12 +99,10 @@ var LBlock = function() {
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(0,60,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(30,60,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -121,31 +111,27 @@ var LBlock = function() {
 	var image5 = new createjs.Bitmap();
 	image5.image = cr.Board.blockImages;
 	image5.sourceRect = new createjs.Rectangle(0,150,30,30);
-
-
 	
 	var arg1 = {
 		x: 0,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 1,
 		y: 0,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 0,
 		y: 1,
 		image: image3
-		}
+	};
 	var arg4 = {
 		x: 0,
 		y: 2,
 		image: image5
-		}
-
-	
+	};
 	
 	this.initialize([arg3, arg2, arg1, arg4]);
 };
@@ -156,15 +142,13 @@ cr.LBlock = LBlock;
 
 // OBlock Class
 var OBlock = function() {
-		var image1 = new createjs.Bitmap();
+	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(0,0,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(0,30,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -173,28 +157,28 @@ var OBlock = function() {
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
 	image4.sourceRect = new createjs.Rectangle(30,30,30,30);
-
 	
 	var arg1 = {
 		x: 0,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 0,
 		y: 1,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 1,
 		y: 0,
 		image: image3
-		}
+	};
 	var arg4 = {
 		x: 1,
 		y: 1,
 		image: image4
-		}
+	};
+	
 	this.initialize([arg2, arg1, arg3, arg4]);
 };
 OBlock.prototype = Object.create(cr.CandyBlock.prototype);
@@ -216,12 +200,10 @@ var SBlock = function() {
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(60,0,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(90,0,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -230,29 +212,27 @@ var SBlock = function() {
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
 	image4.sourceRect = new createjs.Rectangle(120,30,30,30);
-
 	
 	var arg1 = {
 		x: 0,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 2,
 		y: 1,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 1,
 		y: 0,
 		image: image4
-		}
+	};
 	var arg4 = {
 		x: 1,
 		y: 1,
 		image: image3
-		}
-	
+	};
 	
 	this.initialize([arg3, arg2, arg1, arg4]);
 
@@ -267,12 +247,10 @@ var TBlock = function() {
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(280,0,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(250,30,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -281,29 +259,27 @@ var TBlock = function() {
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
 	image4.sourceRect = new createjs.Rectangle(310,30,30,30);
-
 	
 	var arg1 = {
 		x: 1,
 		y: 0,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 0,
 		y: 1,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 1,
 		y: 1,
 		image: image3
-		}
+	};
 	var arg4 = {
 		x: 2,
 		y: 1,
 		image: image4
-		}
-	
+	};
 	
 	this.initialize([arg3, arg2, arg1, arg4]);
 };
@@ -317,12 +293,10 @@ var ZBlock = function() {
 	var image1 = new createjs.Bitmap();
 	image1.image = cr.Board.blockImages;
 	image1.sourceRect =new createjs.Rectangle(150,30,30,30);
-
 	
 	var image2 = new createjs.Bitmap();
 	image2.image = cr.Board.blockImages;
 	image2.sourceRect = new createjs.Rectangle(210,0,30,30);
-
 	
 	var image3 = new createjs.Bitmap();
 	image3.image = cr.Board.blockImages;
@@ -331,29 +305,27 @@ var ZBlock = function() {
 	var image4 = new createjs.Bitmap();
 	image4.image = cr.Board.blockImages;
 	image4.sourceRect = new createjs.Rectangle(180,30,30,30);
-
 	
 	var arg1 = {
 		x: 0,
 		y: 1,
 		image: image1
-		}
+	};
 	var arg2 = {
 		x: 2,
 		y: 0,
 		image: image2
-		}
+	};
 	var arg3 = {
 		x: 1,
 		y: 0,
 		image: image4
-		}
+	};
 	var arg4 = {
 		x: 1,
 		y: 1,
 		image: image3
-		}
-	
+	};
 	
 	this.initialize([arg3, arg2, arg1, arg4]);
 };

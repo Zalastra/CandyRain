@@ -101,8 +101,10 @@ p.checkCollisions = function() {
 					offsetY = -cr.Board.cellSize;
 					break;
 			}
+			childPoint.x = Math.round(childPoint.x + offsetX);
+			childPoint.y = Math.round(childPoint.y + offsetY);
 			for (var k = 0; k < points.length; k++) {
-				if (childPoint.x + offsetX === points[k].x && childPoint.y + offsetY === points[k].y) {
+				if (childPoint.x === points[k].x && childPoint.y === points[k].y) {
 					return true;
 				}
 			}
