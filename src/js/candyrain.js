@@ -39,6 +39,7 @@ $(document).ready(function() {
 	$(document).keydown(handleInput);
 	$("#pauseButton").click(pause);
 	$("#restartButton").click(restart);
+	window.focus();
 });
 
 // Initialize game
