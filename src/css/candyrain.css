@@ -6,6 +6,7 @@ body {
 #banner {
 	font-size: 200%;
 	color: yellow;
+	text-shadow: 3px 2px #ff7700;
 	
 }
 
@@ -18,6 +19,13 @@ body {
 #controls {
 	top: 0;
 	right: 20px;
+	border: 2px solid;
 	position: absolute;
 	
+}
+
+#centerDivs {
+	width: 450px;
+	margin-left: auto;
+	margin-right: auto;
 }
