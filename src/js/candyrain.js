@@ -231,10 +231,10 @@ var moveDown = function() {
 			score += 1200;
 			break;
 	}
-	if (score > (2000 * level)) {
+	if (score > (2000 * level) && blockSpeed > 5) {
 		level++;
 		levelText.text = level;
-		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed / 12)), 8));
+		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed / 12)), 5));
 	}
 	points.text = "" + score;
 	
