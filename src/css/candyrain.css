@@ -1,6 +1,6 @@
 
 body {
-	background-image: candybackground.jpg;
+	background-image: url('../images/candybackground.jpg');
 }
 
 #banner {
