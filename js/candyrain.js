@@ -113,7 +113,7 @@ var createGameOverDialog = function() {
 
 // Handle input
 var handleInput = function(event) {
-	if (!createjs.Ticker.getPause()) {
+	if (!createjs.Ticker.getPaused()) {
 		eventQueue.push(event.which);
 	}
 };
@@ -229,7 +229,7 @@ var moveDown = function() {
 			score += 1200;
 			break;
 	}
-	if (score > (5000 * level)) {
+	if (score > (2000 * level)) {
 		level++;
 		levelText.text = level;
 		blockSpeed = Math.floor(Math.max((blockSpeed - (blockSpeed / 12)), 8));
