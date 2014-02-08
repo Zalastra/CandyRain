@@ -116,6 +116,7 @@ var handleInput = function(event) {
 	if (!createjs.Ticker.getPaused()) {
 		eventQueue.push(event.which);
 	}
+	event.preventDefault();
 };
 
 // Restart the game
