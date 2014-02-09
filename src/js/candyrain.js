@@ -54,6 +54,7 @@ var init = function() {
 	blockSpeed = 24;
 	level = 1;
 	score = 0;
+	gameOver = false;
 	
 	setNextBlock();
 	board.setFallingBlock(nextBlock);
@@ -114,7 +115,7 @@ var createGameOverDialog = function() {
 
 // Handle input
 var handleInput = function(event) {
-	if (!createjs.Ticker.getPaused()) {
+	if (!gameOver && !createjs.Ticker.getPaused()) {
 		eventQueue.push(event.which);
 	}
 	event.preventDefault();
@@ -123,9 +124,13 @@ var handleInput = function(event) {
 // Restart the game
 var restart = function() {
 	stage.removeChild(board);
+	board = null;
 	stage.removeChild(blockStage);
+	blockStage = null;
 	stage.removeChild(pointStage);
+	pointStage = null;
 	stage.removeChild(gameOverBox);
+	gameOverBox = null;
 	init();
 };
 
